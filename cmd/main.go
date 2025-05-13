@@ -1,7 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"to_do/config"
+	"to_do/internal/services/database"
+)
 
 func main() {
-	fmt.Println("I am running")
+	cfg, err := config.NewConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = database.RunMigrations(cfg.ToDoDBConfig)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
