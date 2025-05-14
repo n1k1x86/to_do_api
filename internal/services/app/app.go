@@ -14,7 +14,11 @@ type App struct {
 }
 
 func (a *App) Run() {
-	recover()
+	defer func() {
+		if r := recover(); r != nil {
+			log.Printf("PANIC: %s\n", r)
+		}
+	}()
 }
 
 func (a *App) Close() {
