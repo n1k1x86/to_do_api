@@ -6,13 +6,13 @@ import (
 	"log"
 	"to_do/config"
 
-	_ "github.com/jackc/pgx/stdlib"
 	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/pressly/goose"
 )
 
 func RunMigrations(cfg config.ToDoDB) error {
-	db, err := sql.Open("pgx", cfg.BuildDSN())
+	db, err := sql.Open("pgx/v5", cfg.BuildDSN())
 	if err != nil {
 		return err
 	}
