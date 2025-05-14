@@ -28,7 +28,6 @@ func NewConfig() (*Config, error) {
 		return nil, err
 	}
 	cfg := &Config{}
-	fmt.Println(data)
 	err = yaml.Unmarshal(data, cfg)
 	if err != nil {
 		return nil, err

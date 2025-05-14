@@ -6,16 +6,21 @@ import (
 	"log"
 	"to_do/config"
 
+	_ "github.com/jackc/pgx/stdlib"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/pressly/goose"
 )
 
 func RunMigrations(cfg config.ToDoDB) error {
-	db, err := sql.Open("postgres", cfg.BuildDSN())
+	db, err := sql.Open("pgx", cfg.BuildDSN())
 	if err != nil {
 		return err
 	}
 	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		return err
+	}
 	err = goose.Up(db, "migrations")
 	if err != nil {
 		return err
