@@ -1,0 +1,6 @@
+db:
+  hostname: localhost:5432
+  username: postgres
+  password: postgres
+  db_name: postgres
+  migrations_dir: ./migrations
