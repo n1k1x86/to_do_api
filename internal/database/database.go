@@ -1,10 +1,12 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"todoapi/internal/config"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 )
@@ -26,4 +28,19 @@ func UpMigrations(cfg *config.Database) error {
 		return err
 	}
 	return nil
+}
+
+func NewPool(ctx context.Context, cfg *config.Database) (*pgxpool.Pool, error) {
+	config, err := pgxpool.ParseConfig(BuildDSN(cfg))
+	if err != nil {
+		return nil, err
+	}
+	config.MaxConns = 10
+	config.MinConns = 2
+
+	pool, err := pgxpool.NewWithConfig(ctx, config)
+	if err != nil {
+		return nil, err
+	}
+	return pool, nil
 }

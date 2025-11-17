@@ -2,12 +2,12 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS tasks(
     id INTEGER PRIMARY KEY,
-    title TEXT,
+    title TEXT NOT NULL,
     description TEXT,
     author INTEGER,
     estimation INTEGER,
-    created_at TIMESTAMPTZ,
-    updated_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL,
     CONSTRAINT author_fk FOREIGN KEY (author) REFERENCES users(id)
 )
 -- +goose StatementEnd
