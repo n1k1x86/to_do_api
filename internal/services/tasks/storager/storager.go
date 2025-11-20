@@ -103,22 +103,22 @@ func (t *TasksRepo) BuildUpdatePipline(task *Task) ([]interface{}, []string) {
 	query := make([]string, 0)
 	args := make([]interface{}, 0)
 	argInd := 1
-	if task.Title != "" {
+	if task.Title != nil {
 		query = append(query, fmt.Sprintf("title=$%d", argInd))
 		args = append(args, task.Title)
 		argInd++
 	}
-	if task.Description != "" {
+	if task.Description != nil {
 		query = append(query, fmt.Sprintf("description=$%d", argInd))
 		args = append(args, task.Description)
 		argInd++
 	}
-	if task.Author != 0 {
+	if task.Author != nil {
 		query = append(query, fmt.Sprintf("author=$%d", argInd))
 		args = append(args, task.Author)
 		argInd++
 	}
-	if task.Estimation != 0 {
+	if task.Estimation != nil {
 		query = append(query, fmt.Sprintf("estimation=$%d", argInd))
 		args = append(args, task.Estimation)
 		argInd++

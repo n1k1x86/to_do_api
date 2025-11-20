@@ -8,6 +8,7 @@ import (
 
 type Config struct {
 	Database Database `yaml:"db"`
+	Server   Server   `yaml:"server"`
 }
 
 type Database struct {
@@ -16,6 +17,10 @@ type Database struct {
 	Password      string `yaml:"password"`
 	Username      string `yaml:"username"`
 	MigrationsDir string `yaml:"migrations_dir"`
+}
+
+type Server struct {
+	Addr string `yaml:"addr"`
 }
 
 func LoadConfig() (*Config, error) {
