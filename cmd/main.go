@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -10,6 +9,9 @@ import (
 	"time"
 	"todoapi/internal/config"
 	"todoapi/internal/database"
+	"todoapi/internal/server"
+	tasksStorager "todoapi/internal/services/tasks/storager"
+	usersStorager "todoapi/internal/services/users/storager"
 )
 
 func main() {
@@ -32,7 +34,7 @@ func main() {
 
 	usersRepo := usersStorager.NewUsersRepo(pool)
 	tasksRepo := tasksStorager.NewTasksRepo(pool)
-	server := server.NewHTTPServer(ctx, &cfg.Server, usersRepo, tasksRepo)
+	server := server.NewHTTPServer(&cfg.Server, usersRepo, tasksRepo)
 
 	go func() {
 		defer func() {
@@ -56,5 +58,4 @@ func main() {
 
 	server.Shutdown(graceCtx)
 	log.Println("app was closed successfully")
-	fmt.Println("lets start")
 }

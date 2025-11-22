@@ -4,3 +4,6 @@ db:
   password: postgres
   db_name: postgres
   migrations_dir: ./migrations
+
+server:
+  addr: localhost:8080
