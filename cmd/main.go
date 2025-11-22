@@ -34,7 +34,7 @@ func main() {
 
 	usersRepo := usersStorager.NewUsersRepo(pool)
 	tasksRepo := tasksStorager.NewTasksRepo(pool)
-	server := server.NewHTTPServer(&cfg.Server, usersRepo, tasksRepo)
+	server := server.NewHTTPServer(ctx, &cfg.Server, usersRepo, tasksRepo)
 
 	go func() {
 		defer func() {

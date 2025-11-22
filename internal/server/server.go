@@ -32,8 +32,8 @@ func (h *HTTPServer) Run() error {
 	return nil
 }
 
-func NewHTTPServer(cfg *config.Server, usersRepo *usersStorager.UsersRepo, tasksRepo *tasksStorager.TasksRepo) *HTTPServer {
-	r := router.NewRouter(usersRepo, tasksRepo)
+func NewHTTPServer(ctx context.Context, cfg *config.Server, usersRepo *usersStorager.UsersRepo, tasksRepo *tasksStorager.TasksRepo) *HTTPServer {
+	r := router.NewRouter(ctx, usersRepo, tasksRepo)
 	server := &http.Server{
 		Addr:    cfg.Addr,
 		Handler: r,
