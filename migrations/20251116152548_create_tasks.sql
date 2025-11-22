@@ -1,8 +1,8 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS tasks(
-    id INTEGER PRIMARY KEY,
-    title TEXT,
+    id BIGSERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
     description TEXT,
     author INTEGER,
     estimation INTEGER,
