@@ -16,6 +16,8 @@ func NewRouter(ctx context.Context, usersRepo *usersStorager.UsersRepo, tasksRep
 	r.Route("/api", func(r chi.Router) {
 		r.Use(CheckToken(ctx, usersRepo))
 		r.Get("/test", TestRoute(ctx))
+		r.Get("/user-info", GetUserByLogin(ctx, usersRepo))
+		r.Delete("/user-delete", DeleteUser(ctx, usersRepo))
 	})
 	return r
 }

@@ -97,16 +97,16 @@ func (r *UsersRepo) DeleteUser(ctx context.Context, login string) error {
 	return nil
 }
 
-func (r *UsersRepo) GetUserByLogin(ctx context.Context, login string) error {
+func (r *UsersRepo) GetUserByLogin(ctx context.Context, login string) (*FullUserInfo, error) {
 	query := "select id, login, password, created_at, updated_at from users where login = $1"
 	row := r.pool.QueryRow(ctx, query, login)
 	var user FullUserInfo
 	err := row.Scan(&user.ID, &user.Login, &user.Password, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		log.Printf("error while scanning values into struct: %v", err)
-		return err
+		return nil, err
 	}
-	return nil
+	return &user, nil
 }
 
 func NewUsersRepo(pool *pgxpool.Pool) *UsersRepo {

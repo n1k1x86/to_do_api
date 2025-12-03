@@ -98,6 +98,43 @@ func RegUser(ctx context.Context, usersRepo *usersStorager.UsersRepo) func(w htt
 	}
 }
 
+func DeleteUser(ctx context.Context, usersRepo *usersStorager.UsersRepo) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		reqCtx := r.Context()
+		login := reqCtx.Value(userLogin).(string)
+
+		err := usersRepo.DeleteUser(ctx, login)
+		if err != nil {
+			log.Printf("DeleteUser: error while deleting user: %v", err)
+			HandleInternalError(w, err)
+			return
+		}
+		w.WriteHeader(http.StatusNoContent)
+	}
+}
+
+func GetUserByLogin(ctx context.Context, usersRepo *usersStorager.UsersRepo) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		reqCtx := r.Context()
+		login := reqCtx.Value(userLogin).(string)
+		user, err := usersRepo.GetUserByLogin(ctx, login)
+		if err != nil {
+			log.Printf("GetUserByLogin: error while getting user by login: %v", err)
+			HandleInternalError(w, err)
+			return
+		}
+		body, err := json.Marshal(&user)
+		if err != nil {
+			log.Printf("GetUserByLogin: error while marshaling user: %v", err)
+			HandleInternalError(w, err)
+			return
+		}
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(body)
+	}
+}
+
 func TestRoute(ctx context.Context) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
